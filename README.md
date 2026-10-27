@@ -1,4 +1,4 @@
-# Protos: recetas para el parcial práctico
+# Protos: recetas para práctica
 
 Cada archivo es una receta: arriba el enunciado textual, después la receta para el parcial, después la práctica, la tabla "Si algo falla" y las variantes. Para encontrar el ejercicio, buscá en la tabla qué dice tu enunciado.
 
