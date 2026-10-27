@@ -1,4 +1,16 @@
 # Protocolos — 1C 2026, ejercicio 4: túnel SSH y tail
+
+## Enunciado (textual)
+
+*Fuente: 1C 2026, Ejercicio 4. En 2C 2020 y 2C 2022 fue igual con /tmp/bar y /tmp/pdc.*
+
+Realice los cambios necesarios para que desde una terminal de su host al ejecutar el comando tail -f archivo.log pueda seguir los cambios en vivo del archivo /tmp/parcial-20261 del host pampero.itba.edu.ar. 
+
+**Nota** cualquier solución que no involucre túneles obtendrá la mitad del puntaje posible, si necesita asignar puertos para túneles use su numero de legajo par evitar colisiones. 
+
+**Pista** tail -f, netcat y los pipes de unix (|) y las redirecciones de archivo (>) pueden canalizar la información.
+
+---
 ## Consigna y resultado
 Desde mi host, tail -f archivo.log debe seguir /tmp/parcial-20261 de pampero.itba.edu.ar, usando un túnel SSH y el legajo como puerto.
 

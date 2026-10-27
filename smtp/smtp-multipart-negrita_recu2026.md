@@ -1,4 +1,21 @@
 # Protocolos — Recu 2026, ejercicio 1: SMTP, multipart y POP3
+
+## Enunciado (textual)
+
+*Fuente: Recuperatorio 2026, Ejercicio 1.*
+
+Envie un correo electronico cumpliendo todos los estandares y buenas practicas, con los siguientes requisitos:
+
+1. Contenga el header `X-Parcial` con el valor `2026/1R`.
+2. Contenga un titulo (`Subject`): `¡Buenos días!`.
+3. Contenga como remitente su nombre, apellido y cuenta de correo del ITBA.
+4. Contenga el texto: `¡Hola mundo!` en negrita
+5. El correo debe entregarse a la direccion `{legajo}@mail.protos.foo`, donde `{legajo}` es su numero de legajo.
+6. Debe poder ser leido por MUAs que no soporten la codificacion quoted-printable.
+
+Debe verificar su recepcion utilizando el protocolo POP3. Para ello dispone de un servidor POP3 en el host `mail.protos.foo`. El nombre de usuario es `{legajo}@mail.protos.foo` y la password tiene el mismo valor que el usuario.
+
+---
 ## Consigna y alcance de la práctica
 Nombre: Jerónimo Di Leo Muntaner.
 Cuenta ITBA: jdileomuntaner@itba.edu.ar.

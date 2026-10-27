@@ -1,5 +1,29 @@
 # SMTP a mano + POP3 con base64 (1C 2026, ej 5)
 
+## Enunciado (textual)
+
+*Fuente: 1C 2026, Ejercicio 5.*
+
+Envíe un correo electrónico cumpliendo todos los estándares y buenas prácticas que cumpla con los siguientes requisitos:
+
+1. Contenga el header `X-Parcial` con el valor `2024/2`.
+2. Contenga un título (subject): `¡Buenos días!`
+3. Contenga como remitente su nombre, apellido y cuenta de correo del ITBA.
+4. Contenga el texto:
+
+```text
+¡Hola mundo!
+```
+
+5. El correo debe entregarse a la dirección `{legajo}@mail.sebikul.com` donde `{legajo}` es número de legajo. Por ejemplo si su legajo 40123 entonces deberá entregar el correo a la dirección `40123@mail.sebikul.com`.
+6. Debe poder ser leído por MUAs que no soporten la codificación quoted printable.
+
+Debe verificar su recepción utilizando el protocolo POP3. Para ello dispone de un servidor POP3 en el host `mail.sebikul.com`. El nombre de usuario es `{legajo}@mail.sebikul.com`, donde `{legajo}` debe reemplazarse por su número de legajo, y la password será el mismo valor que el usuario.
+
+Por ejemplo, si su legajo fuese `0123`, el nombre usuario POP3 sería `0123@mail.sebikul.com` y la contraseña `0123@mail.sebikul.com`.
+
+---
+
 ## ⭐ RECETA PARA EL PARCIAL (leer esto primero)
 
 > Abajo, en "PRÁCTICA", está lo que corriste contra Postfix/Dovecot **locales** (`jerodileo@localhost`, `RETR 8`). En el parcial **no** se usa nada de eso: se usan el servidor y las credenciales del enunciado. Esta receta ya tiene todo con los datos del parcial.

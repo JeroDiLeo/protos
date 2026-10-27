@@ -1,5 +1,17 @@
 # Protocolos de Comunicación — 1C 2026, ejercicio 2
 
+## Enunciado (textual)
+
+*Fuente: 1C 2026, Ejercicio 2.*
+
+En las nubes publicas es común encontrarse con endpoints de metadata que proveen información estructurada **solo en formato json** sobre la instancia en la cual se esta corriendo. Normalmente se encuentra montadas sobre direcciones ip no routeables, y requieren la presencia del header `Metadata`: true para evitar ataques de **SSRF** (server side request forgery).
+
+Usted encontró un endpoint de metadata mal configurado disponible públicamente en `http://metadata.protos.foo` como un hacker curioso, quiere intentar descubrir que endpoints la nube tiene disponible, y ver que es posible explotar, pero para facilitar las pruebas y con el objetivo de escribir la menor cantidad de caracteres, desea montar un proxy de forma tal que pueda ejecutar curl `http://metadata.local`, pero se devuelva el contenido de `http://metadata.protos.foo`.
+
+**Requisito** no se permiten otras opciones de curl al hacer pedidos a `http://metadata.local`
+
+---
+
 ## Consigna y resultado
 Configurar nginx para que «curl http://metadata.local», sin opciones adicionales, obtenga el contenido de http://metadata.protos.foo. El backend exige Metadata: true y responde JSON.
 

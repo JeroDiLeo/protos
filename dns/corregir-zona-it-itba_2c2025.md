@@ -1,4 +1,41 @@
 # Protocolos — 2C 2025, ejercicio 3: corregir zona BIND
+
+## Enunciado (textual)
+
+*Fuente: 2C 2025, Ejercicio III.*
+
+Usted es el administrador de un servidor DNS que utiliza BIND9 y es autoritativo para la zona `it.itba.edu.ar`. Recientemente, tras una serie de cambios, los clientes han reportado que la resolución de nombres para todos los hosts dentro de esta zona, como `pampero.it.itba.edu.ar`, ha dejado de funcionar. Sus navegadores arrojan problemas al resolver nombres, y administradores de DNS de los ISP lo han contactado por problemas en la zona.
+
+Al revisar los registros del sistema, observa que el servicio BIND9 se queja de múltiples errores al intentar cargar el archivo de zona, ubicado en `/etc/bind/db.it.itba.edu.ar`. Disponible en `http://protos.foo/zona`.
+
+Inspeccione el archivo de zona, identifique y corrija todos los errores de sintaxis y de configuración lógica que impiden su correcto funcionamiento. Una vez corregidos los errores, haga los cambios necesarios en el registro SOA para asegurar que los cambios se propaguen de manera correcta y rápida.
+
+```
+$TTL 604800
+@ IN SOA ns1.it.itba.edu.ar. admin@it.itba.edu.ar. (
+        2025060500      ; Serial
+        604800          ; Refresh
+        86400           ; Retry
+        2419200         ; Expire
+        604800          ; Negative Cache TTL
+)
+
+; Name Servers
+@       IN NS ns1.it.itba.edu.ar.
+
+; Mail
+@       IN MX 10 mail.
+
+; Hosts
+ns1.it.itba.edu.ar     IN A 192.168.70.1
+pampero                IN A 192.168.70.10
+
+; Aliases
+www     IN A pampero
+correo  IN CNAME pampero
+```
+
+---
 ## Resultado
 Se configuró it.itba.edu.ar en la VM del estudiante, corrigiendo el archivo /etc/bind/db.it.itba.edu.ar.
 Se validaron archivo y configuración, se reinició BIND y se obtuvieron respuestas NOERROR y autoritativas (aa) para SOA, NS, A del NS, MX, pampero y ambos alias.

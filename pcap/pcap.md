@@ -1,5 +1,43 @@
 # Análisis de pcaps de parcial — Protocolos de Comunicación, ITBA
 
+## Enunciado (textual)
+
+*Fuente: 2C 2020 Ejercicios V y VI, y Recuperatorio Ejercicio II.*
+
+**parcial-correo.pcap.gz (Ejercicio VI de VI)**
+
+El archivo disponible en http://foo.leak.com.ar/parcial-correo.pcap.gz contiene entre sus paquetes un correo electrónico siendo transportado por alguno de los protocolos vistos en clase. El correo contiene una imagen. Muestre visualmente la imagen.
+
+En el video respuesta que envíe:
+1. Con el archivo pcap ya descargado muestre en Wireshark cómo encontrar el correo.
+2. Luego muestre cómo lo procesa para obtener la imagen.
+3. Finalmente muestre la imagen.
+
+**dhcp-parcial.pcap.gz (Ejercicio V de VI)**
+
+Obtenga control de la línea de comandos del usuario **pdc** del host `parcial.leak.com.ar` (existe un servidor SSH en el puerto 9090). Una llave privada que permite ingresar al usuario pdc se encuentra en http://foo.leak.com.ar/llave-pdc.pem, pero está con una passphrase. La passphrase tiene 11 caracteres y es la dirección IP (XX.XX.XX.XX) asignada por el servidor DHCP al cliente en la secuencia DHCP disponible en el archivo http://foo.leak.com.ar/dhcp-parcial.pcap.gz.
+
+En el video respuesta que envíe:
+1. Con el archivo pcap ya descargado muestre en Wireshark cómo encontrar la passphrase (llegue a mostrar el campo).
+2. Muestre descarga de llave privada y cómo conectarse.
+3. Una vez en el shell ejecute algún comando (ej date).
+
+→ La passphrase es la respuesta de la sección C (yiaddr del ACK: `10.20.20.20`). La conexión es la receta de la llave .pem con `-p 9090`.
+
+**botica / pcap de DNS y otros (Recuperatorio, Ejercicio II de V)**
+
+En http://foo.leak.com.ar/parcial-dns-y-otros.pcap.gz se encuentra un archivo PCAP producido con Wireshark que contiene pedidos y respuestas DNS, y tramas de otros protocolos. En base a la información contenida en el archivo responda las siguientes preguntas:
+
+A. ¿Cuál es la dirección IP del registro *ejercicio.leak.com.ar*? (1 punto)
+
+B. Un usuario que recibe el correo electrónico destinado a <jcodagno@itba.edu.ar> ¿qué texto lee en su pantalla como cuerpo del mensaje? (1 punto)
+
+→ B es la sección A4. Para A: filtro `dns.qry.name == "ejercicio.leak.com.ar"` y leer el registro A de la respuesta.
+
+*Las preguntas de RIP, saltos de traceroute y contraseña de telnet (A1–A3) salen de la guía de parciales y de las páginas de práctica; no tengo la imagen del enunciado original.*
+
+---
+
 ## RECETA GENERAL
 
 Este apunte usa **las tres capturas reales adjuntadas**, analizadas con TShark 4.2.2. Se consultaron las dos páginas de Notion solicitadas y, para DHCP y variantes, la página “P-pcap – preguntas nuevas sobre dhcp-parcial, botica y parcial-correo”. Las respuestas de abajo fueron contrastadas con los paquetes, no copiadas sin verificar.

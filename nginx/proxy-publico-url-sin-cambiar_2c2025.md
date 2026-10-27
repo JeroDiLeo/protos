@@ -1,5 +1,23 @@
 # 2C 2025 — Ejercicio IV: nginx como proxy inverso
 
+## Enunciado (textual)
+
+*Fuente: 2C 2025, Ejercicio IV.*
+
+El servidor en `parcial.protos.foo` está corriendo un servidor HTTP. Usted desea publicar ese mismo contenido bajo el nombre `publico.protos.foo`, también mediante HTTP. Configure lo necesario para que al acceder a `http://publico.protos.foo` con un cliente HTTP —Firefox, Google Chrome, Curl— se sirva el contenido devuelto por `parcial.protos.foo`.
+
+**Requisito:**  
+No se debe ver modificada la URL ingresada en el browser. Es decir, el cliente debe seguir viendo `http://publico.protos.foo`, no una redirección hacia `parcial.protos.foo`.
+
+Si se utiliza `curl`, no se permiten otras opciones. Se recomienda verificar con:
+
+
+```
+curl http://publico.protos.foo
+```
+
+---
+
 ## Resultado y alcance de la práctica
 
 Consigna: publicar http://parcial.protos.foo bajo http://publico.protos.foo, conservando el nombre público en el cliente. Verificación obligatoria: `curl http://publico.protos.foo`, sin opciones.

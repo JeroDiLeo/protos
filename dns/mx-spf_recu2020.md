@@ -1,5 +1,19 @@
 # Protocolos — DNS de correo: MX y SPF (recu 2020 y similares)
 
+## Enunciado (textual)
+
+*Fuente: Recuperatorio 2020, Ejercicio I.*
+
+Responda las siguientes preguntas sobre el dominio `proto.leak.com.ar`:
+
+A. ¿Cuáles son las direcciones IPs de los servidores SMTP que reciben el correo entrante? (1 punto)
+
+B. Según la política SPF, ¿cuáles son las direcciones IP que tienen permitido enviar correos electrónicos salientes? (1 punto)
+
+**Consejo.** Escriba como comentario de la entrega de campus las soluciones para una primera corrección rápida.
+
+---
+
 ## Consigna típica
 - "Enumere todas las direcciones IP de los servidores SMTP que reciben el correo entrante de `proto.leak.com.ar`" (o: "¿a qué servidores SMTP me conecto para entregar un correo a ese dominio?").
 - "Según la política SPF del dominio, ¿qué direcciones IP pueden enviar correo en su nombre?"

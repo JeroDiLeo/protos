@@ -1,5 +1,21 @@
 # 2C 2021 — Ejercicio IV: dar acceso HTTP/HTTPS a un host sin NAT mediante SSH
 
+## Enunciado (textual)
+
+*Fuente: 2C 2021, Ejercicio IV (igual en el recuperatorio).*
+
+El host `parcial.leak.com.ar` (al cual accedió anteriormente en el Ejercicio III) tiene una única interfaz de red con una dirección IP privada, y su gateway no realiza NAT. Realice los cambios necesarios para que desde la línea de comandos se pueda acceder a cualquier sitio de internet utilizando curl. Por ejemplo se tiene que poder acceder a <http://api.ipify.org> y a <https://campus.itba.edu.ar/> y a cualquier otro arbitrario.
+
+**Atención.** Este ejercicio requiere de la realización del Ejercicio III. Si no puede resolver aquel ejercicio puede pedir la solución para realizarlo (perdiendo esos puntos).
+
+*Cualquier solución que no involucre túneles obtendrá la mitad del puntaje posible.*
+
+*Ejercicio III (acceso previo): servidor SSH en el puerto 2222 de `parcial.leak.com.ar`, usuario pdc, llave en `http://parcial.leak.com.ar/llave.pem` con passphrase. En el recuperatorio el mismo ejercicio usó el puerto 9090.*
+
+*Variante (2C 2021, otro tema): "Realice los cambios necesarios para que al navegar por Internet desde el host pampero.itba.edu.ar los servidores que atiendan sus pedidos observen como IP origen la dirección IP de su host y no la de pampero. Se tiene que poder acceder a cualquier URL arbitraria, pero puede verificar el correcto funcionamiento con sitios como http://api.ipify.org y https://api.my-ip.io/ip.txt." Es el mismo mecanismo (-R + SOCKS) con pampero como host remoto.*
+
+---
+
 ## ⭐ RECETA PARA EL PARCIAL
 
 ### Versión mínima (leer primero)

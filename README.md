@@ -1,6 +1,6 @@
 # Protos: recetas para el parcial práctico
 
-Cada archivo es una receta: arriba la receta para el parcial, después la práctica, la tabla "Si algo falla" y las variantes. Para encontrar el ejercicio, buscá en la tabla qué dice tu enunciado.
+Cada archivo es una receta: arriba el enunciado textual, después la receta para el parcial, después la práctica, la tabla "Si algo falla" y las variantes. Para encontrar el ejercicio, buscá en la tabla qué dice tu enunciado.
 
 Desde la terminal: `grep -ril "palabra" .` o abrí este README en GitHub y usá Ctrl+F.
 

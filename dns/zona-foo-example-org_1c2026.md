@@ -1,4 +1,21 @@
 # Protocolos de Comunicación — 1C 2026, ejercicio 1
+
+## Enunciado (textual)
+
+*Fuente: 1C 2026, Ejercicio 1.*
+
+Instale un servidor de nombres BIND y realice los cambios necesarios para servir la zona `foo.example.org` considerando que:
+
+1. Su servidor de DNS será la autoridad para estas zonas.
+2. La dirección de contacto con la persona responsable por la zona es `example.admin@foo.com.ar`.
+3. `foo.example.org` debe tener un registro A apuntando a la dirección IP de `bar.protos.foo` El registro tendrá una validez de 1 hora.
+4. El subdominio `www` debe ser registros CNAMEs apuntando a la raíz de la zona. Los registros tendrán una validez de 1 semanas.
+5. La zona deben poder recibir correos electrónicos. El correo electrónico será atendido por los mismos servidores de correos que atienden los del dominio `mail.protos.foo `(manteniendo el orden). Estos registros tendrán una validez de 1 semana.
+6. El servidor con la IP 1.2.3.4 es el unico autorizado a enviar correos para esta zona.
+
+Deberá demostrar la correcta configuración utilizando `dig`.
+
+---
 ## Objetivo
 Servir la zona foo.example.org con BIND. Práctica realizada en la máquina del estudiante el 26/10/2026; los comandos fueron ejecutados por él y sus salidas compartidas en el chat.
 

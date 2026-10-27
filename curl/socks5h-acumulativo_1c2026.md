@@ -1,4 +1,16 @@
 # Protocolos de Comunicación — 1C 2026, ejercicio 3
+
+## Enunciado (textual)
+
+*Fuente: 1C 2026, Ejercicio 3.*
+
+⁠El administrador de su empresa necesita ayuda navegando el servidor `http` en `ejercicio3.protos.foo:3126` usando curl. 
+
+**Dato** la red no rutea paquetes hacia el host `ejercicio3.protos.foo`, pero este es accesible mediante un proxy <`socks5h://proxy.protos.foo:1080`>
+
+*Nota*: si no sabe como hacer un request http utilizando un proxy sock v5 puede obtener ayuda sobre como hacerlo, pero con una penalización de 0.5 puntos
+
+---
 ## Resultado y alcance
 Práctica del 26/10/2026, ejecutada por el estudiante en su VM. La conexión al proxy real no se estableció; se completó un recorrido equivalente local con SOCKS5, redirección, headers, idioma, POST, JSON y Basic auth.
 

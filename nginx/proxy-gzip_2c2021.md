@@ -1,5 +1,23 @@
 # 2C 2021 — Ejercicio 1: proxy inverso y compresión transparente
 
+## Enunciado (textual)
+
+*Fuente: 2C 2021, Ejercicio 1.*
+
+Realizar los cambios necesarios para que al ingresar a http://foo.example.org/ utilizando un HTTP User Agent (Firefox, Google Chrome, Curl) se sirva el contenido de http://foo.leak.com.ar/. El contenido se debe servir comprimido de forma transparente si el cliente así lo pidiese.
+
+**Requisito.** No se debe ver modificada la URL ingresada en el browser. Si se utiliza curl sólamente se permiten las opciones necesarias para negociar la compresión. Se recomienda verificación utilizando curl (`$ curl … http://foo.example.org/`).
+
+**Nota.** Las representaciones que retorna foo.leak.com.ar pueden cambiar sin previo aviso.
+
+**Video.** Si para la resolución del video tuviese que configurar un servidor inicie el video mostrando que el servidor no está corriendo, para luego levantarlo y realizar la demostración.
+
+**Advertencia.** Se asignará la mitad del puntaje posible a quienes no configuren y/o no sepan demostrar el funcionamiento de la compresión transparente.
+
+*Versión sin compresión (2C 2020 y 2022): mismo texto sin el pedido de gzip; "Si se utiliza curl no se permiten otras opciones". "Se puede llegar a pedir cualquier recurso dentro foo.leak.com.ar".*
+
+---
+
 ## Objetivo y resultado
 
 Publicar http://foo.leak.com.ar/ bajo http://foo.example.org/, conservando el nombre público y pasando cualquier ruta al backend. Comprimir las representaciones cuando el cliente lo solicite. El ejercicio de 2C 2022 conserva el proxy y no exige compresión.

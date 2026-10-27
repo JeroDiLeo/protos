@@ -1,4 +1,16 @@
 # Protocolos — Recu 2026, ejercicio 2: acceso SSH por clave
+
+## Enunciado (textual)
+
+*Fuente: Recuperatorio 2026, Ejercicio 2 (igual al Ej 4 del recuperatorio 2025).*
+
+El host `parcial.protos.foo` esta corriendo un servidor SSH poco convencional y poco seguro. Usted sabe, por fuentes confiables, que la contraseña del usuario `parcial` es `holamundo`.
+
+Siendo un hacker experimentado, desea poder persistir el acceso al servidor aunque el administrador descubra esta filtracion y cambie las credenciales de usuario.
+
+Muestre que, sin importar la contraseña del usuario `parcial`, usted sigue pudiendo acceder al servidor vulnerado.
+
+---
 ## Objetivo y resultado real
 Configurar autenticación por clave en la cuenta del laboratorio para entrar aunque cambie su contraseña.
 

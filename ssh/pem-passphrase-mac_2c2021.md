@@ -1,5 +1,24 @@
 # 2C 2021 — Ejercicio 2: SSH con llave y passphrase obtenida de una MAC
 
+## Enunciado (textual)
+
+*Fuente: 2C 2021, Ejercicio III (imagen "ej3 y 4.png").*
+
+Obtenga control de la línea de comandos del usuario pdc del host `parcial.leak.com.ar` (existe un servidor SSH en el puerto 2222).
+
+Una llave privada que permite ingresar al usuario pdc se encuentra disponible en <http://parcial.leak.com.ar/llave.pem>, pero está protegida con una passphrase.
+
+La passphrase tiene 17 caracteres y es la dirección MAC `XX:XX:XX:XX:XX:XX` (donde X puede ser `0123456789abcdef`) de la interface `ens3` del host `pampero.itba.edu.ar`.
+
+En el video de la respuesta que envíe:
+1. Muestre cómo encontrar la passphrase.
+2. Muestre cómo descargar la llave privada y cómo conectarse.
+3. Una vez en el shell, muestre la ejecución de algún comando (ej date).
+
+*Variantes que cayeron:* la MAC del host `bd1` accesible desde pampero (2C 2021, otra fecha); la MAC del **gateway** de pampero con la llave en `http://foo.leak.com.ar/llave-pdc-recu.pem` y SSH en el puerto 9090 (recuperatorio); la **IP asignada por DHCP** en `dhcp-parcial.pcap.gz` (11 caracteres, ver `pcap/pcap.md` sección C).
+
+---
+
 ## RECETA PARA EL PARCIAL
 
 **Datos de la consigna:** SSH en parcial.leak.com.ar:2222, usuario remoto pdc, llave en http://parcial.leak.com.ar/llave.pem. La passphrase es la MAC de bd1, consultada desde pampero.itba.edu.ar. Tu usuario de pampero es jdileomuntaner.
