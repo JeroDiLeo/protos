@@ -1,0 +1,165 @@
+# ====================================================================
+# INDICE PROTOS - para buscar que ejercicio mirar segun la consigna
+# (actualizado 27/10/2026)
+# ====================================================================
+# USO:   grep -i "palabra" indice-protos.txt
+#        grep -i "tunel" indice-protos.txt
+#        grep -iE "zona|bind|dig" indice-protos.txt      (varias palabras con -E y |)
+#        grep -i "E50" indice-protos.txt                 (buscar un ejercicio de la guia)
+#
+# FORMATO de cada linea:
+#   [ID] TEMA | palabras de la consigna y sinonimos | DONDE MIRAR
+#
+# DONDE MIRAR:
+#   R:<archivo>  = receta en el repo protos de GitHub (LO QUE SE SIGUE EN EL PARCIAL)
+#                  ~/Documentos/GitHub/protos/<archivo>
+#   GP:<tema>    = Notion > Protos > Guia de parciales > <tema>        (teoria + resolucion)
+#   GPr:<tema>   = Notion > Protos > Guia practica (1) > pagina "PARCIAL - ..."
+#   E<n>         = Notion > Protos > Guia practica (1) > E<n> - ...   (ejercicio de la guia)
+#   P:<id>       = Notion > Protos > Practica - enunciados nuevos > ... (para practicar)
+#   2026:<ej>    = Notion > Protos > Parciales 2026 (enunciados + enfoque)
+#   IDX          = Notion > Protos > Indice: del enunciado al ejercicio (misma tabla con links)
+#
+# ====================================================================
+# POR TEMA (teoria + como se resuelve)
+# ====================================================================
+
+[T-DNS]    DNS/BIND crear zona | instale BIND, autoridad de la zona, registro A CNAME MX NS SOA, responsable, validez TTL, demostrar con dig, named-checkzone | R:dns/zona-foo-example-org_1c2026.md  R:dns/zona-demiloo_2c2022.md  GP:DNS  E50 E51 E52  P:P-DNS-D1
+[T-DNSERR] DNS/BIND corregir zona | corrija los errores del archivo de zona, serial, se propaguen, SOA, named-checkzone, zona rota, db.it.itba.edu.ar, http://protos.foo/zona | R:dns/corregir-zona-it-itba_2c2025.md  GP:DNS(checklist)  P:P-DNS-D2
+[T-DNSX]   DNS registros extra | zona inversa, PTR, resolucion inversa, dig -x, delegar subdominio, NS glue, comodin wildcard *, SRV, CAA, AAAA IPv6 | R:dns/zona-variantes-extra.md  E50
+[T-DNSCLI] DNS consultas con dig | autoritativo, NS, quien es la autoridad, dig +trace, root server, whois, CNAME en cadena, NXDOMAIN, TTL de cache | R:dns/mx-spf_recu2020.md  E42 E44 E45 E46
+[T-DNSFW]  DNS forwarders / DNS primario | forwarders, usar mi BIND como DNS, netplan, resolv.conf | E53 E54
+[T-MX]     DNS correo MX/SPF | servidores que reciben el correo entrante, a que SMTP me conecto, segun la politica SPF que IPs pueden enviar, dig MX, dig TXT, v=spf1, include | R:dns/mx-spf_recu2020.md  GP:DNS-para-correo  E43 E55 E62
+[T-NGINX]  nginx vhosts/proxy/gzip/https | servidor http, hosting, server_name, default What, proxy reverso, no modificar la URL, servir contenido de otro, comprimido transparente gzip, HTTPS certificado mkcert, proxy_pass, Host | R:nginx/proxy-gzip_2c2021.md  R:nginx/proxy-publico-url-sin-cambiar_2c2025.md  R:nginx/proxy-metadata-headers_1c2026.md  GP:nginx  E36 E37 E39 E40 E41  P:P-nginx
+[T-NGINXH] nginx headers al backend | el backend exige un header, Metadata: true, Accept json, metadata.local, proxy_set_header, add_header | R:nginx/proxy-metadata-headers_1c2026.md  GP:nginx
+[T-NGINXX] nginx variantes extra | usuario y contrasena, auth_basic, htpasswd, solo desde una IP, allow deny, redireccion 301, return 301, rewrite, distinto contenido por ruta, location, autoindex listado, solo GET limit_except, pagina 404 propia error_page, varios backends upstream balanceo, X-Forwarded-For, proxy_cache, CORS, server_tokens, idioma Accept-Language | R:nginx/nginx-variantes-extra.md
+[T-HTTP]   HTTP teoria | URI fragmento, URL equivalentes, chunked, media type, metodos idempotencia, codigos de respuesta, Basic auth decodificar, cache ETag If-None-Match 304, Cache-Control | E12 E13 E14 E15 E23 E24 E25 E26 E27 E29 E30 E31 E32 E33 E34
+[T-SMTP]   SMTP a mano + MIME | envie un correo, MAIL FROM, RCPT TO, DATA, que diga que viene de, remitente distinto, From To falsos, base64, no quoted-printable, X-Parcial, subject con tilde, leer por POP3 | R:smtp/smtp-pop3-base64_1c2026.md  GP:SMTP  E57 E58  P:P-SMTP
+[T-MIME]   SMTP formato / adjuntos | negrita, subrayado, cursiva, color, link, HTML y texto plano, multipart alternative mixed related, adjunto imagen, imagen dentro del cuerpo cid Content-ID, CC BCC varios destinatarios Reply-To, quoted-printable, ISO-8859-1, nombre con tilde en From | R:smtp/smtp-variantes-mime.md  R:smtp/smtp-multipart-negrita_recu2026.md  E59 E68 E69 E70
+[T-B64]    base64 / quoted-printable a mano | codifique en base64 a mano, decodifique, tamano +33%, base64url, quoted printable =XX | E63 E64 E65 E66 E67 E68 E69
+[T-POP3]   POP3 leer buzon | verificar recepcion, POP3, USER PASS LIST RETR, leer el correo, netcat puerto 110 | R:smtp/smtp-pop3-base64_1c2026.md  GP:SMTP  E58  P:P-SMTP-M2
+[T-CURL]   curl negociacion/auth/proxy | obtenga con curl, representacion text/plain, idioma espanol es, Accept, Accept-Language, Authorization Basic, seguir redirect 301 302, proxy socks5h, -x, header faltante, acumulativo, X-legajo, POST JSON | R:curl/socks5h-acumulativo_1c2026.md  GP:curl  E21 E30 E32  P:P-curl
+[T-NC]     netcat / HTTP a mano | comunicar dos terminales, CRLF nc -C, netcat como servidor HTTP, GET sin Host, respuesta HTTP a mano | GPr:ncat  E17 E18 E19 E20
+[T-SSHKEY] SSH llave con passphrase | llave privada .pem, passphrase, servidor SSH en el puerto 2222 9090, chmod 600, obtenga control de pdc, la passphrase es la MAC (ens3, bd1, gateway) / la IP del DHCP | R:ssh/pem-passphrase-mac_2c2021.md  GP:SSH  P:P-SSH-S1
+[T-SSHPUB] SSH sin contrasena / persistir | autenticarse sin contrasena, ssh-keygen, ssh-copy-id, authorized_keys, seguir accediendo aunque cambien la contrasena, persistir acceso, holamundo | R:ssh/clave-publica-persistir-acceso_recu2026.md  GP:SSH  E100  2026:r-ej2
+[T-SSHFP]  SSH fingerprints | known_hosts, fingerprint, huella del servidor, ssh-keygen -l | GP:SSH  E99
+[T-SSHL]   SSH tunel local -L | acceder a un servicio que solo ve pampero, llegar a un puerto interno, -L, puerto local | GP:SSH  E104  P:P-SSH-S2
+[T-SSHR]   SSH tunel -R / tail -f | tail -f en vivo de un archivo de pampero, /tmp/parcial-20261 /tmp/pdc /tmp/bar, seguir cambios, -R, netcat, pipes, redirecciones, legajo como puerto | R:ssh/tunel-tail-pampero_1c2026.md  GP:SSH  E103  P:P-SSH-S3  2026:1c-ej4
+[T-SSHD]   SSH internet sin NAT / SOCKS | gateway no hace NAT, IP privada, acceder a internet con curl, navegar desde pampero, que el trafico salga por, IP origen de su host, -D, -R mas -D, SOCKS, api.ipify.org, ALL_PROXY | R:ssh/internet-sin-nat_2c2021.md  GP:SSH  E102  P:P-SSH-S4  P:P-SSH-S5
+[T-SCP]    SSH transferir archivos | transfiera el archivo, traer /etc/passwd, scp, descargar de un host remoto | GP:SSH(transferir)  E101
+[T-MAC]    capa enlace MAC/ARP | encuentre la direccion MAC, desde la interfaz ens3, arp, ip neigh, la MAC del gateway, la MAC de bd1/esmerald | GPr:MAC  E96
+[T-RUTA]   IP ruta estatica/nmap | gateway de la red, descubra el servidor, servicios que expone, routers que intervienen, agregue la ruta, ip route add, nmap, traceroute, modo bridge | R:red/gateway-ruta-estatica-nmap_2c2025.md  GPr:ruta  E79  P:P-Red-R1
+[T-VBOX]   VirtualBox NAT / Bridge / red interna | modo bridge puente, conectado a la red abierta, la VM no ve el gateway, red interna, adaptador, que otros accedan a mi VM, no tengo IP de la red | R:red/virtualbox-nat-bridge.md
+[T-NMAP]   nmap puertos | enumere los puertos abiertos TCP, servicios expuestos, nmap -sT -sS -sV -p-, escaneo, UDP | GPr:nmap  GPr:ruta  E77
+[T-NCAT]   ncat servicios | exponer dos servicios, hola/chau segun la IP, echo server, respuesta HTTP a mano, too many redirects, -l -k -c | GPr:ncat
+[T-PCAP3]  pcap capa 3 RIP/saltos | a que redes tiene acceso, a cuantos saltos, RIP, traceroute en el pcap, fragmentacion, botica | R:pcap/pcap.md(A1 A2 D4 D5)  GPr:pcap-capa3  E79  P:P-pcap
+[T-PCAPF]  pcap flujos TCP | password del usuario, telnet, cuerpo del mensaje, jcodagno, la imagen del correo, parcial-correo, Follow TCP Stream, base64 del adjunto, Export Objects | R:pcap/pcap.md(A3 A4 B1 B2)  GPr:pcap-flujos  P:P-pcap
+[T-DHCP]   DHCP servidor | servidor DHCP, IP mascara y gateway, impresora con MAC siempre misma IP, DNS de Google, rango 10-200 resto reservado, broadcast-dhcp-discover, denegar a un host, lease | R:red/dhcp-servidor_2c2025.md  GP:DHCP  E88 E89 E90 E91 E92  P:P-DHCP-H1
+[T-DHCPP]  DHCP pcap DORA | analizar los paquetes DHCP, DORA, Discover Offer Request ACK, transaction id, yiaddr, IP asignada por el servidor DHCP, passphrase de 11 caracteres, dhcp-parcial | R:pcap/pcap.md(C)  GP:DHCP  E89
+
+# ====================================================================
+# POR PARCIAL (de mas nuevo a mas viejo) - cada ejercicio -> receta
+# ====================================================================
+
+# --- 1C 2026 (02/06/2026) ---
+[26.1-1] DNS zona foo.example.org (A=bar.protos.foo, www CNAME, MX de mail.protos.foo, SPF 1.2.3.4)   -> R:dns/zona-foo-example-org_1c2026.md
+[26.1-2] nginx proxy metadata.local -> metadata.protos.foo (header Metadata:true, Accept json)         -> R:nginx/proxy-metadata-headers_1c2026.md
+[26.1-3] curl acumulativo por socks5h (302, X-legajo, accept-language, POST, json, basic auth)         -> R:curl/socks5h-acumulativo_1c2026.md
+[26.1-4] SSH tunel: tail -f /tmp/parcial-20261 de pampero                                              -> R:ssh/tunel-tail-pampero_1c2026.md
+[26.1-5] SMTP a mano: X-Parcial 2024/2, subject con tilde, base64, no quoted-printable, POP3           -> R:smtp/smtp-pop3-base64_1c2026.md
+
+# --- Recuperatorio 2026 (09/06/2026) ---
+[26.r-1] SMTP a mano a mail.protos.foo, X-Parcial 2026/1R, Hola mundo en negrita                     -> R:smtp/smtp-multipart-negrita_recu2026.md
+[26.r-2] SSH persistir acceso: ssh-copy-id, authorized_keys sobrevive al cambio de contrasena          -> R:ssh/clave-publica-persistir-acceso_recu2026.md
+
+# --- 2C 2025 (31/10/2025) ---
+[25.2-1] DHCP: impresora MAC fija 192.168.100.10, DNS 8.8.8.8/8.8.4.4, rango 10-200                    -> R:red/dhcp-servidor_2c2025.md
+[25.2-2] RED: 192.168.50.250 gateway de 10.0.0.0/24, descubra el servidor, servicios, routers          -> R:red/gateway-ruta-estatica-nmap_2c2025.md  (+ R:red/virtualbox-nat-bridge.md)
+[25.2-3] DNS: corregir zona it.itba.edu.ar con errores, ajustar SOA para propagar                      -> R:dns/corregir-zona-it-itba_2c2025.md
+[25.2-4] nginx: proxy publico.protos.foo -> parcial.protos.foo sin cambiar la URL                      -> R:nginx/proxy-publico-url-sin-cambiar_2c2025.md
+
+# --- Recuperatorio 2025 (2025R) ---
+[25.r-1] SMTP a mano a mail.protos.foo (= recu 2026 ej1)                                               -> R:smtp/smtp-multipart-negrita_recu2026.md
+[25.r-2] nginx proxy metadata.local (= 1C 2026 ej2)                                                    -> R:nginx/proxy-metadata-headers_1c2026.md
+[25.r-3] curl text/plain en espanol a ejercicio3.protos.foo:8080 (= 1C 2026 ej3)                       -> R:curl/socks5h-acumulativo_1c2026.md
+[25.r-4] SSH persistir acceso (password holamundo, authorized_keys)                                    -> R:ssh/clave-publica-persistir-acceso_recu2026.md
+
+# --- 2C 2022 ---
+[22.2-1] nginx proxy reverso foo.example.org -> foo.leak.com.ar con gzip                               -> R:nginx/proxy-gzip_2c2021.md
+[22.2-2] SSH tunel: tail -f de /tmp/pdc de pampero                                                     -> R:ssh/tunel-tail-pampero_1c2026.md
+[22.2-4] DNS: zona demiloo.com.ar (A, www CNAME, MX de proto.leak.com.ar)                              -> R:dns/zona-demiloo_2c2022.md
+
+# --- 2C 2021 ---
+[21.2-1] nginx proxy foo.example.org -> foo.leak.com.ar con gzip                                        -> R:nginx/proxy-gzip_2c2021.md
+[21.2-2] SSH: llave .pem con passphrase = MAC de ens3 de pampero (otra fecha: MAC de bd1)               -> R:ssh/pem-passphrase-mac_2c2021.md
+[21.2-4] SSH -R + SOCKS: host sin NAT accede a internet con curl                                        -> R:ssh/internet-sin-nat_2c2021.md
+[21.2-x] curl text/plain es con basic auth y redirect                                                   -> R:curl/socks5h-acumulativo_1c2026.md (variantes)
+[21.2-y] SSH -R + -D: navegar desde pampero con tu IP                                                   -> R:ssh/internet-sin-nat_2c2021.md (variante)
+[21.2-z] pcap: SMTP, decodificar base64 -> aeiou                                                        -> R:pcap/pcap.md (A4)
+
+# --- 2C 2020 / Recuperatorio 2020 ---
+[20.2-1] MAC de esmerald.it.itba.edu.ar desde la interfaz ens3 de pampero                               -> GPr:MAC
+[20.2-2] puertos abiertos TCP del gateway de pampero                                                    -> GPr:nmap
+[20.2-3] SSH tunel: tail -f /tmp/bar de pampero                                                         -> R:ssh/tunel-tail-pampero_1c2026.md
+[20.2-4] nginx proxy foo.example.org -> foo.leak.com.ar (sin gzip)                                      -> R:nginx/proxy-gzip_2c2021.md (sin la parte gzip)
+[20.2-5] SSH llave-pdc.pem, puerto 9090, passphrase = IP asignada en dhcp-parcial.pcap                 -> R:pcap/pcap.md (C) + R:ssh/pem-passphrase-mac_2c2021.md
+[20.2-6] pcap parcial-correo: mostrar la imagen del correo                                              -> R:pcap/pcap.md (B1)
+[20.r-1] MX e IPs de los SMTP de proto.leak.com.ar, SPF                                                 -> R:dns/mx-spf_recu2020.md
+[20.r-2] pcap DNS y otros: IP de ejercicio.leak.com.ar, cuerpo del mail a jcodagno                      -> R:pcap/pcap.md (A4)
+[20.r-3] SSH llave-pdc-recu.pem, puerto 9090, passphrase = MAC del gateway de pampero                   -> R:ssh/pem-passphrase-mac_2c2021.md
+[20.r-4] host sin NAT accede a internet con curl                                                        -> R:ssh/internet-sin-nat_2c2021.md
+[20.r-5] curl text/plain en espanol de ejercicio4.proto.leak.com.ar/foo/                                -> R:curl/socks5h-acumulativo_1c2026.md (variantes)
+
+# ====================================================================
+# GUIA PRACTICA DE LA CATEDRA (Notion > Guia practica (1)) - E<n> -> tema
+# ====================================================================
+# Direccionamiento y HTTP
+E12  URI: fragmento (#section), se envia al servidor?          E13  URI vs URI reference
+E14  Resolver referencias relativas (RFC 3986)                 E15  Equivalencia de URLs (puerto, mayusculas, %7E)
+E16  URL vs URN en namespaces XML                              E17  netcat: comunicar dos terminales
+E18  netcat: enviar CRLF (nc -C)                               E19  netcat como servidor HTTP: request del browser y respuestas a mano
+E20  netcat a google:80: GET sin Host y headers de respuesta   E21  curl vs wget y opciones de curl (-d, -H, -i, --socks5)
+E22  wget --continue: resumir una descarga (Range)             E23  Nombres de headers sin distinguir mayusculas
+E24  Transfer-Encoding chunked y otras codificaciones          E25  Media types (Content-Type)
+E26  Conexiones persistentes y pipelining                      E27  Metodos HTTP e idempotencia
+E28  Metodo TRACE para detectar proxies                        E29  Que codigo de respuesta HTTP usar en cada caso
+E30  Authorization Basic: recuperar usuario y password         E31  Estrategias de HTTP para ahorrar trafico (cache)
+E32  (P) curl: GET condicional por fecha y por ETag            E33  (T) Cache-Control: max-age y must-revalidate
+E34  (T) Shallow vs deep ETag                                  E35  (P) Login del campus: formulario, cookies y curl
+E36  (P)(T) nginx: vhosts foo y bar, default "What?"           E37  (T) Probar vhosts sin DNS (curl -H Host, /etc/hosts)
+E38  (P) Recargar con F5 vs Ctrl+F5: headers de cache          E39  (P) nginx: proxy reverso a un servidor Python
+E40  (T)(P) nginx: compresion gzip transparente                E41  (P) nginx: HTTPS con certificado de mkcert
+# DNS
+E42  Servidor autoritativo (NS) con dig                        E43  Servidores de correo entrante (MX)
+E44  Servidores de nombres desde el root hasta pampero         E45  dig +trace
+E46  whois de dominios                                         E47  Que foo.pdc.lab muestre protos.foo sin cambiar la URL
+E48  Lo mismo pero pudiendo cambiar la URL (redirect)          E50  BIND9: crear zona directa e inversa con TTL
+E51  BIND9: reinicio y logs                                    E52  Verificar la zona con dig, host y nslookup
+E53  Usar mi BIND como DNS primario (netplan)                  E54  Forwarders de BIND y captura en Wireshark
+# SMTP / MIME / base64
+E55  A que SMTP entregarle un mail del ITBA (MX)               E56  SMTP externos, relay y politicas del servidor
+E57  Postfix + Dovecot: mail a mano, MAIL FROM vs From, To falso, rebotes
+E58  Entrega local: leer el buzon y POP3 con netcat            E59  MUA: mail con acentos e imagen adjunta (MIME)
+E60  Transaccion SMTP y POP3 del MUA en Wireshark              E61  (T) Antispam: SPF, DomainKeys, greylisting, bayesianos
+E62  SPF del ITBA: que IPs pueden enviar                       E63  Base64 a mano: codificar "HO LA"
+E64  Base64 a mano: decodificar Y2hhdQ==                       E65  Base64 con el comando: imagen y tamanos (+33%)
+E66  Base64 en papel: eleccion del alfabeto                    E67  Base64url para identificadores en URLs
+E68  Por que Quoted-Printable y Base64 en el correo            E69  Decodificar Quoted-Printable (multipart/alternative)
+E70  Estructura MIME de un mail del MUA (multipart, Content-ID)
+# Transporte / IP / Enlace
+E77  nmap: servicios TCP y UDP, SYN scan vs connect scan       E79  traceroute: TTL e ICMP en Wireshark
+E96  ARP: entradas estaticas y trafico que generan
+# DHCP
+E88  Servidor DHCP: IP, mascara y gateway en una sola interfaz E89  DHCP: IP fija por MAC y DORA en Wireshark
+E90  DHCP: lease de 2 minutos, release y renovacion            E91  DHCP: renovacion con el servidor caido
+E92  DHCP: denegar la configuracion a un host
+# SSH
+E99  SSH: fingerprints y known_hosts                           E100 SSH sin contrasena (clave publica, ssh-copy-id)
+E101 SSH: transferir archivos (scp /etc/passwd)                E102 SSH: navegar saliendo por pampero (SOCKS, -D)
+E103 SSH tunel remoto -R: pampero accede a mi puerto 9090      E104 SSH tunel local -L: acceder a un servicio de pampero
+
+# ====================================================================
+# NOTA: si resolves algo nuevo, agregate tu propia linea, por ejemplo:
+#   [MIS-xxx] lo que resolvi  ->  R:carpeta/archivo.md
+# asi tu grep tambien te lleva a lo que ya hiciste.
+# ====================================================================
