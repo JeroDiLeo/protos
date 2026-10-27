@@ -1,4 +1,4 @@
-# Protos: recetas para práctica
+# Protos: recetas para el parcial práctico
 
 Cada archivo es una receta: arriba el enunciado textual, después la receta para el parcial, después la práctica, la tabla "Si algo falla" y las variantes. Para encontrar el ejercicio, buscá en la tabla qué dice tu enunciado.
 
@@ -24,6 +24,8 @@ Desde la terminal: `grep -ril "palabra" .` o abrí este README en GitHub y usá 
 | Correo con el cuerpo en negrita, multipart/alternative | [smtp/smtp-multipart-negrita_recu2026.md](smtp/smtp-multipart-negrita_recu2026.md) |
 | Formato en el mail: subrayado, cursiva, color, link; imagen adjunta o dentro del cuerpo (cid); CC, BCC, varios destinatarios; quoted-printable | [smtp/smtp-variantes-mime.md](smtp/smtp-variantes-mime.md) |
 | Zona inversa (PTR), delegar un subdominio, comodín, SRV, CAA | [dns/zona-variantes-extra.md](dns/zona-variantes-extra.md) |
+| Búsqueda del tesoro: el servidor pide cosas de a una, pistas en headers, base64/hex, TXT/SRV/AXFR, servicio con nc | [pistas/seguir-pistas-http-dns-ssh.md](pistas/seguir-pistas-http-dns-ssh.md) |
+| Zona rota con trampas: mensajes de named-checkzone, errores que dan OK igual (punto final, @, TXT sin comillas, bucle CNAME) | [dns/zona-rota-errores-y-trampas.md](dns/zona-rota-errores-y-trampas.md) |
 | Instale un servidor DHCP, impresora con IP fija por MAC, rango, DNS | [red/dhcp-servidor_2c2025.md](red/dhcp-servidor_2c2025.md) |
 | Un gateway de otra red, descubra el servidor, servicios expuestos, routers que intervienen | [red/gateway-ruta-estatica-nmap_2c2025.md](red/gateway-ruta-estatica-nmap_2c2025.md) |
 | ¿NAT o Bridge en VirtualBox? Gateway de otra red, misma red del laboratorio, modo puente, red interna para DHCP | [red/virtualbox-nat-bridge.md](red/virtualbox-nat-bridge.md) |

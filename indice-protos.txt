@@ -163,3 +163,7 @@ E103 SSH tunel remoto -R: pampero accede a mi puerto 9090      E104 SSH tunel lo
 #   [MIS-xxx] lo que resolvi  ->  R:carpeta/archivo.md
 # asi tu grep tambien te lleva a lo que ya hiciste.
 # ====================================================================
+
+# --- agregados 27/10 tarde ---
+[T-PISTAS] busqueda del tesoro / pistas encadenadas | el servidor pide de a una, acumulativo, header faltante, User-Agent navegador, cookie Set-Cookie, POST despues de 302 --post302, pista en base64 hex, TXT con pista, SRV puerto, AXFR transferencia de zona, nombre oculto, nc -C CRLF, banner, flag | R:pistas/seguir-pistas-http-dns-ssh.md  R:curl/socks5h-acumulativo_1c2026.md
+[T-DNSRAR] DNS zona rota con trampas | named-checkzone mensajes, bad dotted quad, CNAME and other data, empty label, unbalanced parentheses, has no NS records, MX is a CNAME, errores silenciosos, punto final, arroba en el SOA, TXT sin comillas, bucle CNAME SERVFAIL, named-checkzone -D | R:dns/zona-rota-errores-y-trampas.md  R:dns/corregir-zona-it-itba_2c2025.md
