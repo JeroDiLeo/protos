@@ -5,29 +5,40 @@ Cada archivo es una receta: arriba el enunciado textual, después la receta para
 Desde la terminal: `grep -ril "palabra" .` o abrí este README en GitHub y usá Ctrl+F.
 
 ## Qué dice el enunciado → qué archivo abrir
+**Cheatsheet de todos los comandos:** [cheatsheet.md](cheatsheet.md) — descargar/mover archivos, curl, dig, BIND, nginx, SMTP/POP3, SSH y túneles, nmap, pcap, red, decodificar.
+
 
 | El enunciado dice... | Archivo |
 |---|---|
+| Cheatsheet de DNS: dig (opciones, qué tipo consultar según el enunciado, leer status/flags), tipos de registro, SPF, zona y BIND, errores, DNS en pcap | [dns/cheatsheet-dns.md](dns/cheatsheet-dns.md) |
 | Instale BIND, sirva la zona, responsable, registro A, www CNAME, MX iguales a otro dominio, SPF | [dns/zona-foo-example-org_1c2026.md](dns/zona-foo-example-org_1c2026.md) (con SPF) · [dns/zona-demiloo_2c2022.md](dns/zona-demiloo_2c2022.md) (sin SPF) |
 | Corrija los errores del archivo de zona, que los cambios se propaguen | [dns/corregir-zona-it-itba_2c2025.md](dns/corregir-zona-it-itba_2c2025.md) |
 | Servidores SMTP que reciben el correo de un dominio, política SPF, qué IPs pueden enviar | [dns/mx-spf_recu2020.md](dns/mx-spf_recu2020.md) |
+| Cheatsheet de nginx: procedimiento, directivas, barra de proxy_pass, qué poner según el enunciado, errores de nginx -t y de curl | [nginx/cheatsheet-nginx.md](nginx/cheatsheet-nginx.md) |
 | `curl http://nombre.local` debe devolver el contenido de otro servidor, el backend exige un header | [nginx/proxy-metadata-headers_1c2026.md](nginx/proxy-metadata-headers_1c2026.md) |
 | nginx: usuario y contraseña, solo cierta IP, redirección 301, contenido por ruta, rewrite, autoindex, solo GET, error 404 propio, varios backends, caché, CORS, idioma (y mapa de todas las variantes) | [nginx/nginx-variantes-extra.md](nginx/nginx-variantes-extra.md) |
 | Proxy inverso con contenido comprimido (gzip) de forma transparente, host virtual, "What?" | [nginx/proxy-gzip_2c2021.md](nginx/proxy-gzip_2c2021.md) |
 | Servir el contenido de otro host sin modificar la URL, proxy_pass | [nginx/proxy-publico-url-sin-cambiar_2c2025.md](nginx/proxy-publico-url-sin-cambiar_2c2025.md) |
 | Navegar con curl a un host al que solo se llega por proxy SOCKS, el servidor pide cosas de a una (302, header, idioma, POST, JSON, auth) | [curl/socks5h-acumulativo_1c2026.md](curl/socks5h-acumulativo_1c2026.md) |
+| Cheatsheet de curl: qué opción/header agregar según el enunciado o la respuesta, códigos HTTP y errores de curl, decodificar pistas | [curl/cheatsheet-curl.md](curl/cheatsheet-curl.md) |
+| curl acumulativo practicado paso a paso: `/debugger` (302, X-Legajo, idioma, POST, JSON, Basic), juego con cookie (`Set-Cookie`/`-b`), tesoro por SOCKS con token en base64; PDF con variantes | [curl/curl-ejercicios-paso-a-paso.md](curl/curl-ejercicios-paso-a-paso.md) · [curl/Guia_curl_acumulativo.pdf](curl/Guia_curl_acumulativo.pdf) |
+| Cheatsheet de SSH: claves (host/usuario), passphrase, permisos, túneles -L/-R/-D/-J, qué hacer según el enunciado, mensajes de error | [ssh/cheatsheet-ssh.md](ssh/cheatsheet-ssh.md) |
 | `tail -f` en vivo de un archivo de pampero, usar un túnel SSH, el legajo como puerto | [ssh/tunel-tail-pampero_1c2026.md](ssh/tunel-tail-pampero_1c2026.md) |
 | Seguir entrando por SSH aunque cambien la contraseña, authorized_keys | [ssh/clave-publica-persistir-acceso_recu2026.md](ssh/clave-publica-persistir-acceso_recu2026.md) |
 | Llave privada .pem con passphrase (MAC o IP de un host), puerto SSH distinto | [ssh/pem-passphrase-mac_2c2021.md](ssh/pem-passphrase-mac_2c2021.md) |
 | Un host sin NAT necesita internet, túneles -R y -D, SOCKS | [ssh/internet-sin-nat_2c2021.md](ssh/internet-sin-nat_2c2021.md) |
+| Cheatsheet de correo: comandos y códigos SMTP/POP3, headers, base64/QP, encoded-words, negrita/subrayado/colores (HTML), multipart alternative/mixed/related, adjuntos, Cc/Bcc, AUTH, errores | [smtp/cheatsheet-correo.md](smtp/cheatsheet-correo.md) |
 | Enviar un correo a mano (header X-Parcial, subject con tilde, remitente, "MUAs sin quoted-printable"), verificar por POP3 | [smtp/smtp-pop3-base64_1c2026.md](smtp/smtp-pop3-base64_1c2026.md) |
+| Leer un buzón por POP3 (`curl pop3://`), decodificar base64, responder por SMTP con la clave y borrar el original (DELE + QUIT) | [smtp/smtp-pop3-mision-catedra.md](smtp/smtp-pop3-mision-catedra.md) · práctica con corrector: [lab-correo/](lab-correo/) |
 | Correo con el cuerpo en negrita, multipart/alternative | [smtp/smtp-multipart-negrita_recu2026.md](smtp/smtp-multipart-negrita_recu2026.md) |
 | Formato en el mail: subrayado, cursiva, color, link; imagen adjunta o dentro del cuerpo (cid); CC, BCC, varios destinatarios; quoted-printable | [smtp/smtp-variantes-mime.md](smtp/smtp-variantes-mime.md) |
 | Zona inversa (PTR), delegar un subdominio, comodín, SRV, CAA | [dns/zona-variantes-extra.md](dns/zona-variantes-extra.md) |
+| Cheatsheet de herramientas: **codificar/decodificar base64** (y hex, URL, QP, ROT13, binario…), netcat, puertos y procesos, descargar/comprimir, procesar texto, permisos | [herramientas/cheatsheet-herramientas.md](herramientas/cheatsheet-herramientas.md) |
 | Búsqueda del tesoro: el servidor pide cosas de a una, pistas en headers, base64/hex, TXT/SRV/AXFR, servicio con nc | [pistas/seguir-pistas-http-dns-ssh.md](pistas/seguir-pistas-http-dns-ssh.md) |
 | Zona rota con trampas: mensajes de named-checkzone, errores que dan OK igual (punto final, @, TXT sin comillas, bucle CNAME) | [dns/zona-rota-errores-y-trampas.md](dns/zona-rota-errores-y-trampas.md) |
 | Instale un servidor DHCP, impresora con IP fija por MAC, rango, DNS | [red/dhcp-servidor_2c2025.md](red/dhcp-servidor_2c2025.md) |
 | Un gateway de otra red, descubra el servidor, servicios expuestos, routers que intervienen | [red/gateway-ruta-estatica-nmap_2c2025.md](red/gateway-ruta-estatica-nmap_2c2025.md) |
+| Cheatsheet de red y DHCP: ver IP/MAC/rutas, **averiguar la MAC de una IP**, rutas estáticas, traceroute, nmap, subredes, servidor DHCP, VirtualBox | [red/cheatsheet-red-dhcp.md](red/cheatsheet-red-dhcp.md) |
 | ¿NAT o Bridge en VirtualBox? Gateway de otra red, misma red del laboratorio, modo puente, red interna para DHCP | [red/virtualbox-nat-bridge.md](red/virtualbox-nat-bridge.md) |
 | Analizar una captura (pcap): redes, saltos, password de telnet, cuerpo de un mail, imagen adjunta, IP por DHCP | [pcap/pcap.md](pcap/pcap.md) |
 
