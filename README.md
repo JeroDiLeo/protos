@@ -12,6 +12,7 @@ Desde la terminal: `grep -ril "palabra" .` o abrí este README en GitHub y usá 
 |---|---|
 | Cheatsheet de DNS: dig (opciones, qué tipo consultar según el enunciado, leer status/flags), tipos de registro, SPF, zona y BIND, errores, DNS en pcap | [dns/cheatsheet-dns.md](dns/cheatsheet-dns.md) |
 | Instale BIND, sirva la zona, responsable, registro A, www CNAME, MX iguales a otro dominio, SPF | [dns/zona-foo-example-org_1c2026.md](dns/zona-foo-example-org_1c2026.md) (con SPF) · [dns/zona-demiloo_2c2022.md](dns/zona-demiloo_2c2022.md) (sin SPF) |
+| Servir la zona carlitos.com.ar: responsable, A con TTL 2 horas, CNAME con TTL 1 semana, 3 MX con métricas 20/30/40 (repaso) | [dns/zona-carlitos-com-ar_repaso.md](dns/zona-carlitos-com-ar_repaso.md) |
 | Corrija los errores del archivo de zona, que los cambios se propaguen | [dns/corregir-zona-it-itba_2c2025.md](dns/corregir-zona-it-itba_2c2025.md) |
 | Servidores SMTP que reciben el correo de un dominio, política SPF, qué IPs pueden enviar | [dns/mx-spf_recu2020.md](dns/mx-spf_recu2020.md) |
 | Cheatsheet de nginx: procedimiento, directivas, barra de proxy_pass, qué poner según el enunciado, errores de nginx -t y de curl | [nginx/cheatsheet-nginx.md](nginx/cheatsheet-nginx.md) |
