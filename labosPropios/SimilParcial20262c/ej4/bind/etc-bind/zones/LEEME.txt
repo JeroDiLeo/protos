@@ -1,0 +1,4 @@
+Cre aca el archivo de zona db.protos.lab a partir de los registros del pcap.
+Despues descomenta la zona en ../named.conf.local y:
+    docker compose restart ej4-bind
+Verifica con dig (ver SOLUCIONES.md).

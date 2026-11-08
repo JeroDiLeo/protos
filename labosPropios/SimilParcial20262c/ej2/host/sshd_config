@@ -1,0 +1,7 @@
+Port 22
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+AllowUsers pepito
+AuthorizedKeysFile /home/pepito/.ssh/authorized_keys
+Subsystem sftp /usr/lib/openssh/sftp-server

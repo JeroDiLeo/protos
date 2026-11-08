@@ -1,0 +1,118 @@
+name: similparcial20262c
+
+# ───────────────────────────────────────────────────────────────
+#  Lab SimilParcial20262c  —  Protocolos de Comunicacion
+#  4 ejercicios identicos en skill al parcial 2026-2C (tema Watch Dogs)
+#
+#  Estas en LINUX, asi que podes pegarle directo a las IP de cada
+#  contenedor (172.30.0.x). Igual publico los puertos en localhost
+#  por si preferis usar 127.0.0.1.
+# ───────────────────────────────────────────────────────────────
+
+networks:
+  ctos:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+services:
+
+  # ===================== EJERCICIO 1 : HTTP + SOCKS5 =====================
+  ej1-entry:
+    build: ./ej1/entry
+    container_name: ej1-entry
+    networks:
+      ctos: { ipv4_address: 172.30.0.11 }
+    ports: [ "3126:3126" ]
+    restart: unless-stopped
+
+  ej1-proxy:
+    build: ./ej1/proxy
+    container_name: ej1-proxy
+    networks:
+      ctos: { ipv4_address: 172.30.0.12 }
+    ports: [ "1080:1080" ]
+    extra_hosts:
+      - "secrets.ct.os:172.30.0.13"   # el proxy SI resuelve el host oculto
+    restart: unless-stopped
+
+  ej1-secret:
+    build: ./ej1/secret
+    container_name: ej1-secret
+    networks:
+      ctos: { ipv4_address: 172.30.0.13 }
+    # SIN ports: solo accesible atravesando el proxy SOCKS5
+    restart: unless-stopped
+
+  # ===================== EJERCICIO 2 : nginx + SSH key ===================
+  ej2-host:
+    build: ./ej2/host
+    container_name: ej2-host
+    hostname: ej2-host
+    networks:
+      ctos: { ipv4_address: 172.30.0.20 }
+    ports:
+      - "2280:80"
+      - "2281:81"
+      - "2222:22"
+    restart: unless-stopped
+
+  # ===================== EJERCICIO 3 : SMTP + IMAP =======================
+  ej3-mail:
+    build:
+      context: ./ej3/mail
+      args:
+        LEGAJO: "${LEGAJO:-62345}"
+    container_name: ej3-mail
+    hostname: pdc.lab
+    networks:
+      ctos: { ipv4_address: 172.30.0.30 }
+    ports:
+      - "2525:25"
+      - "1143:143"
+      - "1110:110"
+    restart: unless-stopped
+
+  # ===================== EJERCICIO 4 : DNS / bind9 =======================
+  ej4-http:
+    build: ./ej4/http
+    container_name: ej4-http
+    networks:
+      ctos: { ipv4_address: 172.30.0.40 }
+    ports: [ "8000:8000" ]
+    restart: unless-stopped
+
+  ej4-bind:
+    build: ./ej4/bind
+    container_name: ej4-bind
+    networks:
+      ctos: { ipv4_address: 172.30.0.41 }
+    ports:
+      - "5353:53/udp"
+      - "5353:53/tcp"
+    volumes:
+      # editas la config ACA en tu disco y haces: docker compose restart ej4-bind
+      - ./ej4/bind/etc-bind:/etc/bind
+    restart: unless-stopped
+
+  # ===== EJERCICIO 5 (EXTRA) : DHCP (analisis de pcap) ==================
+  ej5-http:
+    build: ./ej5/http
+    container_name: ej5-http
+    networks:
+      ctos: { ipv4_address: 172.30.0.60 }
+    ports: [ "8010:8000" ]
+    restart: unless-stopped
+
+  # ===== EJERCICIO 6 (EXTRA) : variante Ej2, pista en un pcap ===========
+  ej6-host:
+    build: ./ej6/host
+    container_name: ej6-host
+    hostname: ej6-host
+    networks:
+      ctos: { ipv4_address: 172.30.0.70 }
+    ports:
+      - "2680:80"
+      - "2622:22"
+    restart: unless-stopped
