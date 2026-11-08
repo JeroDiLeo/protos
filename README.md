@@ -41,11 +41,13 @@ Desde la terminal: `grep -ril "palabra" .` o abrí este README en GitHub y usá 
 | Cheatsheet de red y DHCP: ver IP/MAC/rutas, **averiguar la MAC de una IP**, rutas estáticas, traceroute, nmap, subredes, servidor DHCP, VirtualBox | [red/cheatsheet-red-dhcp.md](red/cheatsheet-red-dhcp.md) |
 | ¿NAT o Bridge en VirtualBox? Gateway de otra red, misma red del laboratorio, modo puente, red interna para DHCP | [red/virtualbox-nat-bridge.md](red/virtualbox-nat-bridge.md) |
 | Analizar una captura (pcap): redes, saltos, password de telnet, cuerpo de un mail, imagen adjunta, IP por DHCP | [pcap/pcap.md](pcap/pcap.md) |
+| **Integrador "The Vault"**: entrar a un SSH sin internet combinando ruteo + DNS (SOA) + HTTP (headers, negociación de contenido) + email (multipart, base64) + token sin estado + ruta estática + nmap + clave SSH con passphrase | [the-vault/The-Vault-resolucion.pdf](the-vault/The-Vault-resolucion.pdf) |
 
 ## Por parcial
 
 | Parcial | Ejercicios |
 |---|---|
+| Integrador | "The Vault" — resuelto paso a paso ([the-vault/](the-vault/)) |
 | 1C 2026 | 1 DNS zona · 2 nginx proxy con headers · 3 curl por SOCKS · 4 túnel SSH + tail · 5 SMTP + POP3 |
 | Recuperatorio 2026 | 1 SMTP en negrita · 2 SSH por clave |
 | 2C 2025 | I DHCP · II gateway y ruta · III zona con errores · IV nginx proxy |
