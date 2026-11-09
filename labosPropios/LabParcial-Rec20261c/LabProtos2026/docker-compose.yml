@@ -1,0 +1,109 @@
+name: labprotos2026
+
+# ============================================================================
+#  LabProtos2026 — parcial 2026 1C (Ej1-5) + recuperatorio 2026 (recu-1, recu-2)
+#
+#  Trabajás DESDE el contenedor 'workstation' (IPs reales 172.28.0.x, nombres
+#  DNS reales .protos.foo). Nada se publica a tu host: no hay puertos que
+#  choquen. Entrás con:   docker compose exec workstation bash
+# ============================================================================
+
+networks:
+  protos:                     # red principal (el alumno la ve)
+    driver: bridge
+    ipam: { config: [ { subnet: 172.28.0.0/24 } ] }
+  oculta:                     # red interna: ej3 vive aca, no se rutea de afuera
+    driver: bridge
+    internal: true
+    ipam: { config: [ { subnet: 172.29.0.0/24 } ] }
+
+services:
+
+  dns:                        # resolver del lab: todos los nombres -> IPs reales
+    build: ./dns
+    container_name: lab-dns
+    networks: { protos: { ipv4_address: 172.28.0.53 } }
+    healthcheck:
+      test: ["CMD","python3","/app/healthcheck.py"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+    restart: unless-stopped
+
+  mail:                       # Ej5 + recu-1 : SMTP 25 / POP3 110
+    build: ./mail
+    container_name: lab-mail
+    networks: { protos: { ipv4_address: 172.28.0.25 } }
+    healthcheck:
+      test: ["CMD","python3","-c","import socket;socket.create_connection(('127.0.0.1',25),2);socket.create_connection(('127.0.0.1',110),2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  metadata:                   # Ej2 : nginx (403 sin header, JSON con header)
+    build: ./metadata
+    container_name: lab-metadata
+    networks: { protos: { ipv4_address: 172.28.0.20 } }
+    healthcheck:
+      test: ["CMD","curl","-fs","-o","/dev/null","-H","Metadata: true","http://localhost/"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  ej3:                        # Ej3 : servidor acumulativo, SOLO en red oculta
+    build: ./ej3
+    container_name: lab-ej3
+    networks: { oculta: { ipv4_address: 172.29.0.30 } }
+    restart: unless-stopped
+
+  proxy:                      # Ej3 : SOCKS5 (puente entre protos y oculta)
+    build: ./proxy
+    container_name: lab-proxy
+    dns: [ 172.28.0.53 ]
+    networks:
+      protos: { ipv4_address: 172.28.0.40 }
+      oculta: { ipv4_address: 172.29.0.40 }
+    depends_on:
+      dns: { condition: service_healthy }
+      ej3: { condition: service_started }
+    restart: unless-stopped
+
+  pampero:                    # Ej4 : host SSH con /tmp/parcial-20261 y nc
+    build: ./pampero
+    container_name: lab-pampero
+    networks: { protos: { ipv4_address: 172.28.0.60 } }
+    healthcheck:
+      test: ["CMD","sh","-c","nc -z 127.0.0.1 22"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  parcial:                    # recu-2 : ssh(22)+nginx(80)+python(8000)
+    build: ./parcial
+    container_name: lab-parcial
+    networks: { protos: { ipv4_address: 172.28.0.72 } }
+    healthcheck:
+      test: ["CMD","python3","-c","import socket; [socket.create_connection(('127.0.0.1',p),2).close() for p in (22,80,8000)]"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  workstation:                # donde trabajás vos
+    build: ./workstation
+    container_name: lab-workstation
+    hostname: workstation
+    dns: [ 172.28.0.53 ]
+    networks: { protos: { ipv4_address: 172.28.0.5 } }
+    depends_on:
+      dns:      { condition: service_healthy }
+      mail:     { condition: service_healthy }
+      metadata: { condition: service_healthy }
+      pampero:  { condition: service_healthy }
+      parcial:  { condition: service_healthy }
+      proxy:    { condition: service_started }
+    restart: unless-stopped

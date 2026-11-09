@@ -1,0 +1,5 @@
+# Lab: no frenar al alumno con la verificacion de host key
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    LogLevel ERROR
