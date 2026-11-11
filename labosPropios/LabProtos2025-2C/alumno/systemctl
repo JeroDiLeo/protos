@@ -1,0 +1,79 @@
+#!/bin/bash
+# Shim de systemctl para el lab: en un contenedor no hay systemd, pero los
+# comandos del parcial (systemctl restart/reload/status ...) funcionan igual.
+LOG=/var/log/lab; mkdir -p "$LOG"
+args=(); for a in "$@"; do [[ "$a" == -* ]] || args+=("$a"); done
+act="${args[0]}"; svc="${args[1]%.service}"
+if [ -z "$act" ] || [ -z "$svc" ]; then
+  echo "uso: systemctl {start|stop|restart|reload|status} {bind9|named|nginx|isc-dhcp-server}"; exit 1
+fi
+case "$svc" in
+  bind9|named) svc=named ;;
+  nginx) ;;
+  isc-dhcp-server|dhcpd) svc=dhcpd ;;
+  NetworkManager|network-manager)
+    echo "(lab) No hay NetworkManager en el contenedor: no hace falta frenarlo."; exit 0 ;;
+  *) echo "(lab) servicio no manejado: $svc"; exit 1 ;;
+esac
+
+running(){ for p in $(pgrep -x "$1"); do st=$(awk '{print $3}' /proc/$p/stat 2>/dev/null); [ -n "$st" ] && [ "$st" != Z ] && return 0; done; return 1; }
+logfile(){ case "$1" in named) echo $LOG/named.log;; nginx) echo /var/log/nginx/error.log;; dhcpd) echo $LOG/dhcpd.log;; esac; }
+unit(){ case "$1" in named) echo "named.service - BIND Domain Name Server";; nginx) echo "nginx.service - A high performance web server and a reverse proxy server";; dhcpd) echo "isc-dhcp-server.service - ISC DHCP IPv4 server";; esac; }
+uname_(){ case "$1" in named) echo named;; nginx) echo nginx;; dhcpd) echo isc-dhcp-server;; esac; }
+fail(){ echo "Job for $(uname_ $1).service failed because the control process exited with error code."; echo "See \"systemctl status $(uname_ $1).service\" and \"journalctl -u $(uname_ $1)\" for details."; exit 1; }
+
+start(){
+  case "$1" in
+    named)
+      running named && return 0
+      mkdir -p /run/named && chown bind:bind /run/named
+      touch $LOG/named.log && chown bind:bind $LOG/named.log
+      named -u bind -c /etc/bind/named.conf -L $LOG/named.log >>$LOG/named.log 2>&1 || fail named ;;
+    nginx)
+      running nginx && return 0
+      nginx 2>>/var/log/nginx/error.log || { nginx -t; fail nginx; } ;;
+    dhcpd)
+      running dhcpd && return 0
+      IFS4=$( . /etc/default/isc-dhcp-server 2>/dev/null; echo "$INTERFACESv4" )
+      mkdir -p /var/lib/dhcp && touch /var/lib/dhcp/dhcpd.leases
+      echo "---- $(date '+%b %d %T') arrancando dhcpd (INTERFACESv4=\"$IFS4\") ----" >>$LOG/dhcpd.log
+      nohup dhcpd -4 -d -cf /etc/dhcp/dhcpd.conf -lf /var/lib/dhcp/dhcpd.leases $IFS4 >>$LOG/dhcpd.log 2>&1 &
+      sleep 1.5; running dhcpd || fail dhcpd ;;
+  esac
+}
+stop(){
+  case "$1" in
+    named) rndc stop >/dev/null 2>&1 || pkill -x named; for i in 1 2 3 4 5 6 7 8 9 10; do running named || break; sleep 0.3; done ;;
+    nginx) nginx -s quit 2>/dev/null || pkill -x nginx; for i in 1 2 3 4 5 6 7 8 9 10; do running nginx || break; sleep 0.3; done ;;
+    dhcpd) pkill -x dhcpd; for i in $(seq 1 20); do running dhcpd || break; sleep 0.2; done ;;
+  esac
+}
+reload(){
+  case "$1" in
+    named) running named || { start named; return; }; rndc reload >/dev/null 2>&1 || pkill -HUP -x named ;;
+    nginx) running nginx || { start nginx; return; }
+           nginx -t >/dev/null 2>&1 || { nginx -t; fail nginx; }
+           old=$(pgrep -f 'nginx: worker' | sort | tr '\n' ' ')
+           nginx -s reload 2>>/var/log/nginx/error.log || fail nginx
+           for i in $(seq 1 30); do now=$(pgrep -f 'nginx: worker' | sort | tr '\n' ' '); [ -n "$now" ] && [ "$now" != "$old" ] && break; sleep 0.1; done
+           sleep 0.2 ;;
+    dhcpd) stop dhcpd; start dhcpd ;;
+  esac
+}
+status(){
+  echo "● $(unit $1)"
+  if running "$1"; then echo "     Active: active (running)"; rc=0
+  else echo "     Active: failed (Result: exit-code)"; rc=3; fi
+  echo; tail -n 12 "$(logfile $1)" 2>/dev/null
+  return $rc
+}
+case "$act" in
+  start) start $svc ;;
+  stop) stop $svc ;;
+  restart) stop $svc; start $svc ;;
+  reload) reload $svc ;;
+  status) status $svc; exit $? ;;
+  is-active) running $svc && { echo active; exit 0; } || { echo inactive; exit 3; } ;;
+  enable|disable|daemon-reload) echo "(lab) $act: no hace falta en el contenedor" ;;
+  *) echo "(lab) accion no soportada: $act"; exit 1 ;;
+esac

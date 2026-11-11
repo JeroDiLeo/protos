@@ -1,0 +1,104 @@
+name: labrecu2026
+
+# =============================================================================
+#  LabRecu2026 — práctica para el recuperatorio de Protocolos de Comunicación
+#
+#  Trabajás DENTRO del contenedor "alumno" (tu VM):   make ws
+#  No se publica ningún puerto a tu máquina: todo con IPs reales de la red lan.
+#
+#   red lan 192.168.60.0/24
+#     alumno .20 | dns .53 | mail.protos.foo .70 | ejercicio2.protos.foo .80
+#     parcial.protos.foo .90
+# =============================================================================
+
+networks:
+  lan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.60.0/24
+          gateway: 192.168.60.1
+
+services:
+
+  dns:                      # resolver del lab (protos.foo + datos del Ej3)
+    build: ./dns
+    container_name: recu-dns
+    networks:
+      lan: { ipv4_address: 192.168.60.53 }
+    healthcheck:
+      test: ["CMD", "python3", "/app/healthcheck.py"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 3s
+    restart: unless-stopped
+
+  mail:                     # Ej1: SMTP 25 + POP3 110 (mail.protos.foo)
+    build: ./mail
+    container_name: recu-mail
+    networks:
+      lan: { ipv4_address: 192.168.60.70 }
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import socket; [socket.create_connection(('127.0.0.1',p),2).close() for p in (25,110)]"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  httpneg:                  # Ej2: content negotiation (ejercicio2.protos.foo:8080)
+    build: ./httpneg
+    container_name: recu-httpneg
+    networks:
+      lan: { ipv4_address: 192.168.60.80 }
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/foo/', timeout=2)"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  metadata:                 # Ej2: endpoint de metadata (metadata.protos.foo)
+    build: ./metadata
+    container_name: recu-metadata
+    networks:
+      lan: { ipv4_address: 192.168.60.85 }
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-o", "/dev/null", "-H", "Metadata: true", "http://127.0.0.1/"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  parcial:                  # Ej4: servidor SSH a persistir (parcial.protos.foo)
+    build: ./parcial
+    container_name: recu-parcial
+    networks:
+      lan: { ipv4_address: 192.168.60.90 }
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "22"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  alumno:                   # TU VM
+    build: ./alumno
+    container_name: recu-alumno
+    hostname: alumno
+    init: true
+    cap_add: [ NET_ADMIN, NET_RAW ]
+    networks:
+      lan: { ipv4_address: 192.168.60.20 }
+    depends_on:
+      dns:      { condition: service_healthy }
+      mail:     { condition: service_healthy }
+      httpneg:  { condition: service_healthy }
+      metadata: { condition: service_healthy }
+      parcial:  { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "sh", "-c", "grep -q 192.168.60.53 /etc/resolv.conf"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped

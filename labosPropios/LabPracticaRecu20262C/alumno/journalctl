@@ -1,0 +1,18 @@
+#!/bin/bash
+# Shim de journalctl: 'journalctl -u <servicio> [-n N]' muestra el log del servicio.
+n=40; svc=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -u) svc="$2"; shift ;;
+    -u*) svc="${1#-u}" ;;
+    -n) n="$2"; shift ;;
+    -n*) n="${1#-n}" ;;
+  esac; shift
+done
+case "${svc%.service}" in
+  bind9|named) f=/var/log/lab/named.log ;;
+  nginx) f=/var/log/nginx/error.log ;;
+  isc-dhcp-server|dhcpd) f=/var/log/lab/dhcpd.log ;;
+  *) echo "uso: journalctl -u {bind9|nginx|isc-dhcp-server} [-n N]"; exit 1 ;;
+esac
+tail -n "$n" "$f" 2>/dev/null || echo "-- No entries --"

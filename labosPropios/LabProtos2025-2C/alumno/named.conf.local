@@ -1,0 +1,7 @@
+//
+// Zonas locales de este servidor.
+//
+zone "it.itba.edu.ar" {
+    type master;
+    file "/etc/bind/db.it.itba.edu.ar";
+};

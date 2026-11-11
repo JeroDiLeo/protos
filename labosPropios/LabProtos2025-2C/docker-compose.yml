@@ -1,0 +1,108 @@
+name: labprotos2025
+
+# =============================================================================
+#  LabProtos2025-2C — Parcial Práctico 2Q2025 (Protocolos de Comunicación)
+#
+#  Trabajás DENTRO del contenedor "alumno" (tu VM del parcial):
+#        make ws        (o: docker compose exec alumno bash)
+#
+#  No se publica ningún puerto a tu máquina: todo pasa por IPs reales,
+#  igual que en el laboratorio.
+#
+#   red lan       192.168.50.0/24   alumno .20 | dns .53 | protos.foo .80
+#                                   parcial.protos.foo .90 | gateway A .250
+#   red 10.0.0.0/24                 A .254 | servidor oculto (vive dentro de A)
+#   red dhcp-lab  192.168.100.0/24  red aislada para el servidor DHCP (Ej I)
+# =============================================================================
+
+networks:
+  lan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.50.0/24
+          gateway: 192.168.50.1
+  dhcp-lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+          gateway: 192.168.100.254
+
+services:
+
+  dns:                      # resolver del lab: protos.foo, parcial.protos.foo
+    build: ./dns
+    container_name: lab25-dns
+    networks:
+      lan: { ipv4_address: 192.168.50.53 }
+    healthcheck:
+      test: ["CMD", "python3", "/app/healthcheck.py"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 3s
+    restart: unless-stopped
+
+  web:                      # protos.foo -> sirve http://protos.foo/zona (Ej III)
+    build: ./web
+    container_name: lab25-web
+    networks:
+      lan: { ipv4_address: 192.168.50.80 }
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-o", "/dev/null", "http://127.0.0.1/zona"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  parcial:                  # parcial.protos.foo -> backend HTTP (Ej IV)
+    build: ./parcial
+    container_name: lab25-parcial
+    networks:
+      lan: { ipv4_address: 192.168.50.90 }
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-o", "/dev/null", "-H", "Host: parcial.protos.foo", "http://127.0.0.1/"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  gateway:                  # host "A": 192.168.50.250, gateway de 10.0.0.0/24 (Ej II)
+    build: ./gateway        # adentro arma la red 10.0.0.0/24 y el servidor oculto
+    container_name: lab25-gateway
+    init: true
+    cap_add: [ NET_ADMIN, SYS_ADMIN ]
+    security_opt: [ "apparmor=unconfined" ]   # unshare/nsenter sin trabas en Ubuntu
+    sysctls:
+      net.ipv4.ip_forward: "1"
+    networks:
+      lan: { ipv4_address: 192.168.50.250 }
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 3s
+    restart: unless-stopped
+
+  alumno:                   # TU VM del parcial
+    build: ./alumno
+    container_name: lab25-alumno
+    hostname: alumno
+    init: true
+    cap_add: [ NET_ADMIN, NET_RAW ]
+    networks:
+      lan:      { ipv4_address: 192.168.50.20 }
+      dhcp-lab: { ipv4_address: 192.168.100.1 }
+    depends_on:
+      dns:     { condition: service_healthy }
+      web:     { condition: service_healthy }
+      parcial: { condition: service_healthy }
+      gateway: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "sh", "-c", "pgrep -x named && pgrep -x nginx && grep -q 192.168.50.53 /etc/resolv.conf"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped

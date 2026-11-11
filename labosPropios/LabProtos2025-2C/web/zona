@@ -1,0 +1,22 @@
+$TTL 604800
+@ IN SOA ns1.it.itba.edu.ar. admin@it.itba.edu.ar. (
+        2025060500      ; Serial
+        604800          ; Refresh
+        86400           ; Retry
+        2419200         ; Expire
+        604800          ; Negative Cache TTL
+)
+
+; Name Servers
+@       IN NS ns1.it.itba.edu.ar.
+
+; Mail
+@       IN MX 10 mail
+
+; Hosts
+ns1.it.itba.edu.ar     IN A 192.168.70.1
+pampero                IN A 192.168.70.10
+
+; Aliases
+www     IN A pampero
+correo  IN CNAME pampero
